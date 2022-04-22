@@ -1,5 +1,6 @@
 package buaa.service.impl;
 
+import buaa.entity.Company;
 import buaa.util.JWTUtil;
 import buaa.util.Result;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,7 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -49,5 +52,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return data;
     }
 
+    public List<Map<String, Object>> getLike(String key) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("realname", key);
+        List<User> companyList = userMapper.selectList(queryWrapper);
+        List<Map<String, Object>> data = new ArrayList<>();
+        for (User user : companyList) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("value", user.getRealname());
+            map.put("uid", user.getUid());
+            data.add(map);
+        }
+        return data;
+    }
 
 }

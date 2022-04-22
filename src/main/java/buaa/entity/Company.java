@@ -9,23 +9,21 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 
-@Repository
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+@Repository
+public class Company {
     @TableId
-    private Long uid;
-    private String username;
-    private String password;
-    private Date createTime;
-    private Date updateTime;
-    private Integer gender;
+    private Integer cid;
+    private String company;
+    private String uscc;
+    private String address;
+    private String representative;
     private String phone;
     private String email;
-    private String realname;
-    private String avatar;
-    private String role;
+    private String createTime;
+    private String updateTime;
     @TableLogic
-    private Integer isDeleted;
+    private Integer deleted;
 }

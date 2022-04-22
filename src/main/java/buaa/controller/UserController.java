@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -68,7 +70,7 @@ public class UserController {
             // TODO 用户身份存入 redis 缓存
             // 返回成功提示，并附带 token
             Map<String, String> data = userService.generateTokenMap(user);
-            return Result.success(data);
+            return Result.success("", data);
         }
     }
 
@@ -80,16 +82,20 @@ public class UserController {
      */
     @ResponseBody
     @GetMapping("/info")
-    public Result<Map<String, String>> info(@RequestHeader("X-Token") String token) {
+    public Result<Map<String, Object>> info(@RequestHeader("X-Token") String token) {
         Claims claims = JWTUtil.parseToken(token, "BUAA");
         Long uid = Long.parseLong(claims.getSubject());
-        Map<String, String> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         // TODO 根据 token 在 redis 缓存中查询对应用户的信息
         User user = userService.getById(uid);
-        data.put("name", user.getNickname());
+        data.put("name", user.getRealname());
         data.put("avatar", user.getAvatar());
+        List<String> roles = new ArrayList<>();
+        roles.add(user.getRole());
+        data.put("roles", roles);
+        data.put("introduction", user.getRole());
         // 返回用户信息
-        return Result.success(data);
+        return Result.success("", data);
     }
 
 
@@ -98,4 +104,14 @@ public class UserController {
         // TODO 根据 token 在 redis 中删除对应用户信息缓存
         return Result.success("已退出登录");
     }
+
+    @ResponseBody
+    @GetMapping("/query")
+    public Result<List<Map<String, Object>>> getUser(@RequestParam Map<String, String> query) {
+        List<Map<String, Object>> data = userService.getLike(query.get("user"));
+        return Result.success("", data);
+    }
 }
+
+
+

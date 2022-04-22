@@ -1,8 +1,9 @@
 package buaa.service.impl;
 
 import buaa.entity.Blacklist;
-import buaa.mapper.BlacklistMapper;
-import buaa.service.BlacklistService;
+import buaa.entity.Creditline;
+import buaa.mapper.CreditlineMapper;
+import buaa.service.CreditlineService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,29 +15,31 @@ import java.util.Map;
 
 
 @Service
-public class BlacklistServiceImpl extends ServiceImpl<BlacklistMapper, Blacklist> implements BlacklistService {
+public class CreditlineServiceImpl extends ServiceImpl<CreditlineMapper, Creditline> implements CreditlineService {
 
     @Resource
-    private BlacklistMapper blacklistMapper;
+    private CreditlineMapper creditlineMapper;
 
     @Override
-    public Page<Blacklist> pageByListQuery(Map<String, String> listQuery) {
+    public Page<Creditline> pageByListQuery(Map<String, String> listQuery) {
         System.out.println("listQuery = " + listQuery);
         String company = listQuery.get("company");
         String representative = listQuery.get("representative");
         String phone = listQuery.get("phone");
         String email = listQuery.get("email");
         String address = listQuery.get("address");
-        Page<Blacklist> page = new Page<>(
+        Page<Creditline> page = new Page<>(
                 Long.parseLong(listQuery.get("current")),
                 Long.parseLong(listQuery.get("size"))
         );
-        QueryWrapper<Blacklist> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<Creditline> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StringUtils.isNotBlank(company), "company", company);
         queryWrapper.like(StringUtils.isNotBlank(representative), "representative", representative);
         queryWrapper.like(StringUtils.isNotBlank(phone), "phone", phone);
         queryWrapper.like(StringUtils.isNotBlank(email), "email", email);
         queryWrapper.like(StringUtils.isNotBlank(address), "address", address);
-        return blacklistMapper.selectPage(page, queryWrapper);
+        return creditlineMapper.selectPage(page, queryWrapper);
     }
+
+
 }

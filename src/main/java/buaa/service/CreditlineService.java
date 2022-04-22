@@ -1,13 +1,14 @@
 package buaa.service;
 
-import buaa.entity.Blacklist;
+import buaa.entity.Creditline;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Map;
 
 
-public interface BlacklistService extends IService<Blacklist> {
+public interface CreditlineService extends IService<Creditline> {
 
-    Page<Blacklist> pageByListQuery(Map<String, String> listQuery);
+
+    Page<Creditline> pageByListQuery(Map<String, String> listQuery);
 }

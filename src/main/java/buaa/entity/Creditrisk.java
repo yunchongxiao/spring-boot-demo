@@ -7,23 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Repository
-public class Blacklist {
+public class Creditrisk {
     @TableId
-    private Integer bid;
-    private String company;
-    private String uscc;
-    private String address;
-    private String representative;
-    private String reason;
-    private String phone;
-    private String email;
-    private String breakTime;
-    private String createTime;
-    private String updateTime;
+    private Integer crid;
+    private String company; // 公司名称
+    private String model; // 模型名
+    private Double risk;  // 风险
+    private Date updateTime; // 结果更新时间
+    private String status;
+    private Long duration;
     @TableLogic
     private Integer deleted;
 }
